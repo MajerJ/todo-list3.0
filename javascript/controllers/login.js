@@ -5,7 +5,7 @@ angular.module('ToDo')
     $scope.reqUser = {};
     $scope.serverUrl = 'https://todo30-be-au.herokuapp.com';
     
-    if($scope.sessionUser.length === 0) {
+    if($scope.user.username !== undefined) {
         $location.path('/tasks');
     }
     
