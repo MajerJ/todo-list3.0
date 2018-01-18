@@ -9,9 +9,9 @@
 
     <div id="list">
         <h3>Your Personal Task List</h3>        
-        <ul ng-show="list.length" ng-repeat="item in list | orderBy:propertyName:reverse" ng-click="updateTask()">
+        <ul ng-show="list.length" ng-repeat="item in list | orderBy:propertyName:reverse">
             <li>
-                <label class="label">
+                <label class="label" ng-click="updateTask()">
                     <input  class="label__checkbox" type="checkbox" ng-model="item.done">
                     <span class="label__text">
                         <span class="label__check">
@@ -19,7 +19,8 @@
                         </span>
                     </span>
                 </label>                
-                <a ng-class="{done: item.done}">{{item.task}}<em> ({{item.date | date}})</em></a>      
+                <a class="tooltip" ng-class="{done: item.done}" ng-href="#!notes/{{item._id}}">{{item.task}}<em> ({{item.date | date}})</em>
+                <span class="tooltiptext">Click to see task notes</span></a>      
             </li>
         </ul>
     </div>
