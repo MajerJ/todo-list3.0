@@ -9,6 +9,9 @@ angular.module('ToDo')
     .when('/tasks', {
         templateUrl: '/pages/tasks.html'
     })
+    .when('/notes/:_id', {
+        templateUrl: '/pages/notes.html'
+    })
     .when('/', {
         templateUrl: '/pages/login.html'
     })
