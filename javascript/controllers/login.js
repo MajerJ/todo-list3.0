@@ -5,6 +5,10 @@ angular.module('ToDo')
     $scope.reqUser = {};
     $scope.serverUrl = 'https://todo30-be-au.herokuapp.com';
     
+    if($scope.sessionUser !== null) {
+        $location.path('/tasks');
+    }
+    
     $scope.storeUser = function() {
         sessionStorage.setItem('user', angular.toJson($scope.user));
     }
