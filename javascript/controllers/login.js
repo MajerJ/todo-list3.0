@@ -3,6 +3,7 @@ angular.module('ToDo')
     $scope.sessionUser = sessionStorage.getItem('user');    
     $scope.user = ($scope.sessionUser !== null) ? JSON.parse($scope.sessionUser) : {};
     $scope.reqUser = {};
+    $scope.serverUrl = 'http://localhost:3000';
     
     $scope.storeUser = function() {
         sessionStorage.setItem('user', angular.toJson($scope.user));
@@ -11,7 +12,7 @@ angular.module('ToDo')
     $scope.login = function() {
         $http({
             method: 'POST',
-            url: 'http://localhost:3000/login',
+            url: $scope.serverUrl + '/login',
             data: $httpParamSerializerJQLike({username: $scope.reqUser.username, password: $scope.reqUser.password}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             withCredentials: true
@@ -31,7 +32,7 @@ angular.module('ToDo')
     $scope.logout = function() {
         $http({
             method: 'GET',
-            url: 'http://localhost:3000/logout',
+            url: $scope.serverUrl + '/logout',
             withCredentials: true
         }).then(function(response) {
             $scope.user = {};
@@ -45,7 +46,7 @@ angular.module('ToDo')
     $scope.register = function() {
         $http({
             method: 'POST',
-            url: 'http://localhost:3000/local-reg',
+            url: $scope.serverUrl + '/local-reg',
             data: $httpParamSerializerJQLike({username: $scope.reqUser.username, password: $scope.reqUser.password}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             withCredentials: true
