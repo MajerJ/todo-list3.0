@@ -1,10 +1,10 @@
 angular.module('ToDo')
 .controller('MyTaskList', function($scope, $http, $httpParamSerializerJQLike, $location) {
     $scope.list = [];
-    
+        
     $http({
             method: 'GET',
-            url: 'http://localhost:3000/tasks/' + $scope.user._id,
+            url: $scope.serverUrl + '/tasks/' + $scope.user._id,
             withCredentials: true
         }).then(function(response) {                     
             if (response.data.message) {                
@@ -20,7 +20,7 @@ angular.module('ToDo')
     $scope.addTask = function() {        
         $http({                      
             method: 'POST',
-            url: 'http://localhost:3000/tasks',            
+            url: $scope.serverUrl + '/tasks',            
             data: $httpParamSerializerJQLike({task: $scope.newTask.task, userId: $scope.user._id}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function(response) {
@@ -34,34 +34,44 @@ angular.module('ToDo')
             keyEvent.preventDefault();
             $scope.addTask();
         }
-    };
+    }
 
     $scope.removeSelected = function() {
         for (var i = ($scope.list.length)-1; i >= 0 ; i--) {
-            if ($scope.list[i].done) {                
+            if ($scope.list[i].done) {                             
                 $http({                    
                     method: 'DELETE',
-                    url: 'http://localhost:3000/tasks/' + $scope.list[i]._id                   
+                    url: $scope.serverUrl + '/tasks/' + $scope.list[i]._id                   
                 }).then(function(response) {                    
                     console.log(response.data)                    
                 });
-            $scope.list.splice([i], 1);
+            $scope.removeNotes($scope.list[i]._id); 
+            $scope.list.splice([i], 1);            
             }
         }    
-    };
+    }
+
+    $scope.removeNotes = function(id) {
+        $http({                    
+            method: 'DELETE',
+            url: $scope.serverUrl + '/notes/' + id                   
+        }).then(function(response) {                    
+            console.log(response.data)                    
+        });
+    }
 
     $scope.updateTask = function() {
         for (var i = 0; i < ($scope.list.length); i++) {                            
                 $http({                    
                     method: 'PUT',
-                    url: 'http://localhost:3000/tasks/' + $scope.list[i]._id,
+                    url: $scope.serverUrl + '/tasks/' + $scope.list[i]._id,
                     data: $httpParamSerializerJQLike({done: $scope.list[i].done}),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function(response) {                    
                     console.log(response.data)
                 });
         } 
-    };
+    }
     
     $scope.$on('remove', function(event) {
         $scope.removeSelected();
@@ -70,5 +80,5 @@ angular.module('ToDo')
     $scope.sortBy = function(propertyName) {
         $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
         $scope.propertyName = propertyName;
-    };
+    }
 });
