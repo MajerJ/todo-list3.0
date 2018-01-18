@@ -3,7 +3,7 @@ angular.module('ToDo')
     $scope.sessionUser = sessionStorage.getItem('user');    
     $scope.user = ($scope.sessionUser !== null) ? JSON.parse($scope.sessionUser) : {};
     $scope.reqUser = {};
-    $scope.serverUrl = 'http://localhost:3000';
+    $scope.serverUrl = 'https://todo30-be-au.herokuapp.com';
     
     $scope.storeUser = function() {
         sessionStorage.setItem('user', angular.toJson($scope.user));
